@@ -86,7 +86,7 @@ ${SETUP_PY_TEXT}
       list(APPEND BOOST_COMPONENTS python27)
     endif()
   else()
-    list(APPEND BOOST_COMPONENTS python38)
+    list(APPEND BOOST_COMPONENTS python)
   endif()
   find_package(Boost REQUIRED COMPONENTS ${BOOST_COMPONENTS}) 
 
@@ -145,6 +145,15 @@ ${SETUP_PY_TEXT}
   get_directory_property(AMCF ADDITIONAL_MAKE_CLEAN_FILES)
   list(APPEND AMCF ${PYTHON_LIB_DIR}/${PYLIB_OUTPUT_NAME})
   set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${AMCF}") 
-  
+
+  # Add the python package to the list of packages to be installed
+  if(${CMAKE_VERSION} VERSION_GREATER "3.14") 
+    message("Add Numpy to the list of packages")
+  # cmake_minimum_required(VERSION 3.14)
+  find_package(Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
+  target_include_directories(${TARGET_NAME} PRIVATE ${Python3_INCLUDE_DIRS})
+  target_include_directories(${TARGET_NAME} PRIVATE ${Python3_NumPy_INCLUDE_DIRS})
+  target_link_libraries(${TARGET_NAME} ${Python3_LIBRARIES})
+  endif()
 ENDFUNCTION()
 
