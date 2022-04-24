@@ -1,7 +1,8 @@
 #include <numpy_eigen/boost_python_headers.hpp>
 
 #include <bsplines/BSpline.hpp>
-
+using namespace std;
+using namespace placeholders;
 using namespace bsplines;
 using namespace boost::python;
 
